@@ -22,7 +22,7 @@ class _WalletScreenState extends State<WalletScreen> {
           flex: 2,
           child: Container(
             alignment: Alignment.center,
-            child:Text('10.000\$', style: TextStyle(fontWeight: FontWeight.bold,fontSize:50 ),),
+            child:Text('10.000\$', style: TextStyle(fontWeight: FontWeight.bold,fontSize:50,color:buttonsBackground, ),),
             margin: const EdgeInsets.only(bottom: 50),
             decoration: const BoxDecoration(
                 gradient: LinearGradient(

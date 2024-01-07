@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isRefreshing = true;
   List? coinMarket = [];
   var coinMarketList;
+  late PageController pageController;
 
   List? stockMarket = [];
   var stockMarketList;
@@ -36,7 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     getCoinMarket();
     getStockMarket();
+    pageController = PageController();
+
     super.initState();
+  }
+  @override
+  void dispose() {
+    // Dispose the PageController
+    pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -53,7 +62,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 textStyle: const TextStyle(fontSize: 18),
                 backgroundColor: buttonsBackground,
               ),
-              onPressed: () {},
+              onPressed: () {
+                pageController.animateToPage(
+                  0, // Index of the Stock ListView
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
+                );
+              },
               child: const Text('Stock'),
             ),
             TextButton(
@@ -63,8 +78,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 textStyle: const TextStyle(fontSize: 18),
                 backgroundColor: buttonsBackground,
               ),
-              onPressed: () {},
-              child: const Text('Crypto'),
+              onPressed: () {
+                pageController.animateToPage(
+                  1, // Index of the Exchange ListView
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
+                );                
+              },
+              child: const Text('Exchange'),
             ),
             TextButton(
               style: TextButton.styleFrom(
@@ -73,8 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 textStyle: const TextStyle(fontSize: 18),
                 backgroundColor: buttonsBackground,
               ),
-              onPressed: () {},
-              child: const Text('Exchange'),
+              onPressed: () {
+                pageController.animateToPage(
+                  2, // Index of the Crypto ListView
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
+                );
+              },
+              child: const Text('Crypto'),
             ),
           ],
         ),
@@ -85,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Expanded(
           child: Container(
             child: PageView(
+              controller: pageController,
               children: [
                 ListView(
                   children: [

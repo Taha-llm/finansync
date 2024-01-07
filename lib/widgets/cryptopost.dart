@@ -13,12 +13,6 @@ import 'package:hope/View/selectCoin.dart';
 import 'package:intl/intl.dart'; // For DateFormat
 import 'package:syncfusion_flutter_charts/charts.dart'; // For SfCartesianChart
 
-
-
-
-
-
-
 class CryptoPost extends StatefulWidget {
   final CoinModel coin; // Add the parameter
 
