@@ -23,7 +23,7 @@ class ScreenLayout extends StatefulWidget {
 
 class _ScreenLayoutState extends State<ScreenLayout> {
   int index = 1;
-  final screens = [
+  final List<Widget> screens = [
     WalletScreen(),
     HomeScreen(),
     AppSettingsScreen(),
