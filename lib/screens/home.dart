@@ -105,16 +105,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 ListView(
                   children: [
-  ExchangePost(amount: 100, value: 0.2953647, symbol: 'EUR',flag : "TN"),
-  ExchangePost(amount: 100, value: 0.32298052, symbol: 'USD',flag : "TN"),
-  ExchangePost(amount: 100, value: 0.25427194, symbol: 'GBP',flag : "TN"),
-  ExchangePost(amount: 100, value: 0.27483898, symbol: 'CHF',flag : "TN"),
-  ExchangePost(amount: 100, value: 0.43170808, symbol: 'CAD',flag : "TN"),
-  ExchangePost(amount: 100, value: 46.78203463, symbol: 'JPY',flag : "TN"),
-  ExchangePost(amount: 100, value: 43.4238323, symbol: 'DZD',flag : "TN"),
-  ExchangePost(amount: 100, value: 1.17564774, symbol: 'QAR',flag : "TN"),
-  ExchangePost(amount: 100, value: 1.21117555, symbol: 'SAR',flag : "TN"),
-  ExchangePost(amount: 100, value: 29.50859177, symbol: 'RUB',flag : "TN"),
+  ExchangePost(amount: 100, value: 0.2953647, symbol: 'EUR',flag : "EU"),
+  ExchangePost(amount: 100, value: 0.32298052, symbol: 'USD',flag : "US"),
+  ExchangePost(amount: 100, value: 0.25427194, symbol: 'GBP',flag : "GB"),
+  ExchangePost(amount: 100, value: 0.27483898, symbol: 'CHF',flag : "CH"),
+  ExchangePost(amount: 100, value: 0.43170808, symbol: 'CAD',flag : "CA"),
+  ExchangePost(amount: 100, value: 46.78203463, symbol: 'JPY',flag : "JP"),
+  ExchangePost(amount: 100, value: 43.4238323, symbol: 'DZD',flag : "DZ"),
+  ExchangePost(amount: 100, value: 1.17564774, symbol: 'QAR',flag : "QA"),
+  ExchangePost(amount: 100, value: 1.21117555, symbol: 'SAR',flag : "SA"),
+  ExchangePost(amount: 100, value: 29.50859177, symbol: 'RUB',flag : "RU"),
                   ],
                 ),
                 ListView(
@@ -180,7 +180,7 @@ Future<List<StockModel>?> getStockMarket() async {
   });
 
   var response = await http.get(Uri.parse(url), headers: {
-    'X-RapidAPI-Key': '9679f5105dmshaa1fdfdd7d659e9p1d4535jsn227c219dd690',
+    'X-RapidAPI-Key': 'a152e81c6cmsh8e9afc8fe1eba49p1bd746jsn06ddb9b22e93',
     'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
   });
 

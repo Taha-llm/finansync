@@ -38,7 +38,7 @@ class ExchangePost extends StatelessWidget {
         children: [
           Image.network(
             'https://api.exchangerate-api.com/flag-images/$flag.gif',
-            width: 50,
+            height : 40
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +52,7 @@ class ExchangePost extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '$amount',
+                '${(amount * value).toStringAsFixed(2)}'+' $symbol',
               ),
             ],
           ),
@@ -60,7 +60,7 @@ class ExchangePost extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '${(amount * value).toStringAsFixed(2)}',
+                '$amount' + ' TND',
               ),
               SizedBox(height: 5),
             ],
