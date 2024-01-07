@@ -77,11 +77,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 //input pwd
                 TextFieldInput(
+                 
                   textEditingController: _passwordController,
                   hintText: 'Enter your password',
+                
                   textInputType: TextInputType.text,
                   isPass: true,
-                ),
+                  ),
+                
                 const SizedBox(
                   height: 24,
                 ),
