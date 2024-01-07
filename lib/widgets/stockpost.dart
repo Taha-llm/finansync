@@ -2,12 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hope/utils/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:hope/Model/stockModel.dart';
+import 'package:hope/Model/coinModel.dart';
 
-class StocksPost extends StatelessWidget {
-  const StocksPost({super.key});
+import 'package:chart_sparkline/chart_sparkline.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:syncfusion_flutter_charts/charts.dart';
+import '../Model/chartModel.dart';
+import 'package:hope/View/selectCoin.dart';
+
+
+
+class StocksPost extends StatefulWidget {
+  final StockModel stock; // Add the parameter
+  final CoinModel coin;
+  const StocksPost({Key? key, required this.stock,required this.coin}) : super(key: key);
+  @override
+  State<StocksPost> createState() => _StocksPostState();
+}
+
+class _StocksPostState extends State<StocksPost> {
+  late StockModel stock;
+  late CoinModel coin;
 
   @override
+  void initState() {
+    super.initState();
+    stock = widget.stock;
+    coin = widget.coin;
+
+  
+  }
+  
+  @override
   Widget build(BuildContext context) {
+    double myHeight = MediaQuery.of(context).size.height;
+    double myWidth = MediaQuery.of(context).size.width;
+    
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       padding: const EdgeInsets.symmetric(
@@ -23,37 +56,35 @@ class StocksPost extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            child: SizedBox(
-              height: 300,
-              width: 400,
-              child: LineChart(
-                LineChartData(
-                  minX: 0,
-                  maxX: 15,
-                  minY: 0,
-                  maxY: 2000,
-                  lineBarsData: [
-                    LineChartBarData(spots: [
-                      FlSpot(0, 500),
-                      FlSpot(2, 700),
-                      FlSpot(3, 750),
-                      FlSpot(4, 400),
-                      FlSpot(5, 390),
-                      FlSpot(6, 450),
-                      FlSpot(7, 400),
-                      FlSpot(8, 300),
-                      FlSpot(9, 1500),
-                      FlSpot(11, 1300),
-                      FlSpot(12, 1350),
-                      FlSpot(13, 1550),
-                      FlSpot(14, 1540),
-                      FlSpot(15, 1488),
-                    ])
-                  ],
-                ),
-              ),
-            ),
-          ),
+  height: myHeight * 0.4,
+  width: myWidth,
+  child: Column(
+    children: [
+      Expanded(
+        child: Sparkline(
+          data: coin.sparklineIn7D.price,
+          lineWidth: 2.0,
+          lineColor: stock.changePercent >= 0 ? Colors.green : Colors.red,          
+
+        ),
+      ),
+      SizedBox(height: 8.0), // Spacer
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text('Previous_close', style: TextStyle(color: gold)),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text('${stock.previous_close}'),
+        ],
+      ),
+    ],
+  ),
+)
+,
           SizedBox(
             height: 15,
           ),
@@ -78,12 +109,12 @@ class StocksPost extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Stock_full_Name',
+                      stock.name,
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('Stock_Symbol')
+                    Text(stock.symbol)
                   ],
                 ),
                 Expanded(
@@ -91,12 +122,12 @@ class StocksPost extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Stock_Price_\$',
+                      stock.price.toString(),
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('Change_%')
+                    Text(stock.changePercent.toString())
                   ],
                 )),
                 SizedBox(

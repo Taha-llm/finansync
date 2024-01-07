@@ -2,12 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hope/utils/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:hope/Model/coinModel.dart';
+import 'package:chart_sparkline/chart_sparkline.dart';
+import 'dart:convert';
 
-class CryptoPost extends StatelessWidget {
-  const CryptoPost({super.key});
+import 'package:http/http.dart' as http;
+import 'package:syncfusion_flutter_charts/charts.dart';
+import '../Model/chartModel.dart';
+import 'package:hope/View/selectCoin.dart';
+import 'package:intl/intl.dart'; // For DateFormat
+import 'package:syncfusion_flutter_charts/charts.dart'; // For SfCartesianChart
+
+
+
+
+
+
+
+class CryptoPost extends StatefulWidget {
+  final CoinModel coin; // Add the parameter
+
+  const CryptoPost({Key? key, required this.coin}) : super(key: key);
+  @override
+  State<CryptoPost> createState() => _CryptoPostState();
+}
+
+class _CryptoPostState extends State<CryptoPost> {
+  late CoinModel coin;
+  late TrackballBehavior trackballBehavior;
 
   @override
+  void initState() {
+    getChart();
+    trackballBehavior = TrackballBehavior(
+    enable: true, activationMode: ActivationMode.singleTap);
+    super.initState();
+    coin = widget.coin;
+
+  
+  }
+  
+  @override
   Widget build(BuildContext context) {
+    double myHeight = MediaQuery.of(context).size.height;
+    double myWidth = MediaQuery.of(context).size.width;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
       padding: const EdgeInsets.symmetric(
@@ -23,37 +61,54 @@ class CryptoPost extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            child: SizedBox(
-              height: 300,
-              width: 400,
-              child: LineChart(
-                LineChartData(
-                  minX: 0,
-                  maxX: 15,
-                  minY: 15000,
-                  maxY: 20000,
-                  lineBarsData: [
-                    LineChartBarData(spots: [
-                      FlSpot(0, 15500),
-                      FlSpot(2, 15700),
-                      FlSpot(3, 15750),
-                      FlSpot(4, 16400),
-                      FlSpot(5, 17390),
-                      FlSpot(6, 15450),
-                      FlSpot(7, 19400),
-                      FlSpot(8, 19300),
-                      FlSpot(9, 18500),
-                      FlSpot(11, 18300),
-                      FlSpot(12, 19350),
-                      FlSpot(13, 19550),
-                      FlSpot(14, 18540),
-                      FlSpot(15, 19488),
-                    ])
-                  ],
+                  height: myHeight * 0.4,
+                  width: myWidth,
+                  // color: Colors.amber,
+                  child: isRefresh == true
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xffFBC700),
+                          ),
+                        )
+                      : itemChart == null
+                          ? Padding(
+                              padding: EdgeInsets.all(myHeight * 0.06),
+                              child: Center(
+                                child: Text(
+                                  'Attention this Api is free, so you cannot send multiple requests per second, please wait and try again later.',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            )
+                          : SfCartesianChart(
+  trackballBehavior: trackballBehavior,
+  zoomPanBehavior: ZoomPanBehavior(
+    enablePinching: true,
+    zoomMode: ZoomMode.x,
+  ),
+  primaryXAxis: DateTimeAxis(
+    dateFormat: DateFormat('yyyy/MM/dd'), // Format as year/month/day
+  ),
+  series: <CandleSeries>[
+    CandleSeries<ChartModel, DateTime>(
+      enableSolidCandles: true,
+      enableTooltip: true,
+      bullColor: Colors.green,
+      bearColor: Colors.red,
+      dataSource: itemChart!,
+      xValueMapper: (ChartModel sales, _) =>
+          DateTime.fromMillisecondsSinceEpoch(sales.time),
+      lowValueMapper: (ChartModel sales, _) => sales.low,
+      highValueMapper: (ChartModel sales, _) => sales.high,
+      openValueMapper: (ChartModel sales, _) => sales.open,
+      closeValueMapper: (ChartModel sales, _) => sales.close,
+      animationDuration: 55,
+    ),
+  ],
+)
+
+,
                 ),
-              ),
-            ),
-          ),
           SizedBox(
             height: 15,
           ),
@@ -66,8 +121,8 @@ class CryptoPost extends StatelessWidget {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.white,
-                  child: SvgPicture.asset(
-                      'assets/FinanSync-logos_transparent.svg'),
+                  child: Image.network(
+                      coin.image),
                 ),
                 SizedBox(
                   width: 5,
@@ -76,10 +131,10 @@ class CryptoPost extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Crypto_full_Name',
+                      coin.name
                     ),
                     SizedBox(height: 5,),
-                    Text('crypto_Symbol')
+                    Text(coin!.symbol)
                   ],
                 ),
                 Expanded(
@@ -87,10 +142,10 @@ class CryptoPost extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'crypto_Price_\$',
+                      coin!.currentPrice.toString()
                     ),
                     SizedBox(height: 5,),
-                    Text('Change_%')
+                    Text(coin.priceChangePercentage24H.toString() )
                   ],
                 )),
                 SizedBox(
@@ -128,7 +183,7 @@ class CryptoPost extends StatelessWidget {
                                     child: const Text('Confirm'))
                               ],
                               title:const Text('Are you sure'),
-                              content: const Text('Your adding xxx crypto_name to your prtfolio. xxxx amount will be deducted from your account'),
+                              content: const Text('Your adding xxx coin_name to your prtfolio. xxxx amount will be deducted from your account'),
                             ));
                   },
                   child: const Text('Buy'),
@@ -179,4 +234,74 @@ class CryptoPost extends StatelessWidget {
       ),
     );
   }
+
+  List<String> text = ['D', 'W', 'M', '3M', '6M', 'Y'];
+  List<bool> textBool = [false, false, true, false, false, false];
+
+  int days = 30;
+
+  setDays(String txt) {
+    if (txt == 'D') {
+      setState(() {
+        days = 1;
+      });
+    } else if (txt == 'W') {
+      setState(() {
+        days = 7;
+      });
+    } else if (txt == 'M') {
+      setState(() {
+        days = 30;
+      });
+    } else if (txt == '3M') {
+      setState(() {
+        days = 90;
+      });
+    } else if (txt == '6M') {
+      setState(() {
+        days = 180;
+      });
+    } else if (txt == 'Y') {
+      setState(() {
+        days = 365;
+      });
+    }
+  }
+
+  List<ChartModel>? itemChart;
+
+  bool isRefresh = true;
+
+  Future<void> getChart() async {
+    String url = 'https://api.coingecko.com/api/v3/coins/' +
+        widget.coin.id +
+        '/ohlc?vs_currency=usd&days=' +
+        "7";
+
+    setState(() {
+      isRefresh = true;
+    });
+
+    var response = await http.get(Uri.parse(url), headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    });
+
+    setState(() {
+      isRefresh = false;
+    });
+    if (response.statusCode == 200) {
+      Iterable x = json.decode(response.body);
+      print(x);
+      List<ChartModel> modelList =
+          x.map((e) => ChartModel.fromJson(e)).toList();
+      setState(() {
+        itemChart = modelList;
+      });
+    } else {
+      print(response.statusCode);
+    }
+  }
+
+  
 }

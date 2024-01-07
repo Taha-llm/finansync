@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:hope/screens/login.dart';
 import 'package:hope/screens/profilesettings.dart';
@@ -33,22 +35,31 @@ class _WalletScreenState extends State<WalletScreen> {
                 )),
           ),
         ),
+        
         ListTile(
-          title: Text('Portfolio',style: TextStyle(color:Colors.grey[700],fontWeight: FontWeight.bold),),
+          title: Text(
+            'Portfolio',
+            style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.bold),
+          ),
         ),
         Expanded(
           flex: 3,
           child: Container(
-            margin: EdgeInsets.only(bottom: 30,left: 15,right: 15),
-          decoration: BoxDecoration(border:Border.all(color: buttonsBackground),borderRadius: BorderRadius.circular(10)),
-          child: 
-          ListView(
-            children: [
-              PortfolioPost(),
-              PortfolioPost(),
-              PortfolioPost(),
-            ],
-          ),
+            margin: EdgeInsets.only(left: 15, right: 15), // Marge inférieure supprimée
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              // Autres décorations si nécessaire
+            ),
+            child: ListView(
+              children: [
+                PortfolioPost(),
+                PortfolioPost(),
+                PortfolioPost(),
+                PortfolioPost(),
+                PortfolioPost(),
+                PortfolioPost(),
+              ],
+            ),
           ),
         ),
       ],

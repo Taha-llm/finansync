@@ -13,9 +13,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  //User
   final currentUser = FirebaseAuth.instance.currentUser!;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Expanded(
                   flex: 3,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 30.0),
                     child: Column(
                       children: [
                         Text(userData['username'],
@@ -42,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 .titleLarge
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                                  color: Color.fromARGB(255, 57, 57, 57),
                                 )),
                         const SizedBox(height: 16),
                         Column(
@@ -56,11 +54,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   title: Text(
                                     currentUser.email!,
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        color: Color.fromARGB(255, 57, 57, 57),
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                                Divider(height: 1.0, color: Colors.black),
+                                Divider(
+                                    height: 1.0,
+                                    color: Color.fromARGB(255, 57, 57, 57)),
                                 ListTile(
                                   onTap: () {
                                     Navigator.push(
@@ -72,11 +72,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   title: Text(
                                     'Profile Settings',
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        color: Color.fromARGB(255, 57, 57, 57),
                                         fontWeight: FontWeight.bold),
                                   ),
+                                  trailing: Icon(Icons.arrow_forward_ios,
+                                      color: Color.fromARGB(255, 57, 57, 57)),
                                 ),
-                                Divider(height: 1.0, color: Colors.black),
+                                Divider(
+                                    height: 3.0,
+                                    color: Color.fromARGB(255, 57, 57, 57)),
                                 ListTile(
                                   onTap: () {
                                     showDialog(
@@ -90,7 +94,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
-                                                    child: const Text('Close')),
+                                                    child: const Text(
+                                                      ('Close'),
+                                                      style: TextStyle(
+                                                          color: Colors.grey),
+                                                    )),
                                                 TextButton(
                                                     onPressed: () {
                                                       Navigator.push(
@@ -99,20 +107,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               builder: (context) =>
                                                                   LoginScreen()));
                                                     },
-                                                    child:
-                                                        const Text('Sign Out'))
+                                                    child: const Text(
+                                                        'Sign Out',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.grey)))
                                               ],
-                                              title: const Text('Sign Out'),
+                                              title: const Text('Sign Out',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold)),
                                               content: const Text(
                                                   'You are signing out.'),
                                             ));
                                   },
                                   title: Text('Sign Out',
                                       style: TextStyle(
-                                          color: Colors.black,
+                                          color:
+                                              Color.fromARGB(255, 57, 57, 57),
                                           fontWeight: FontWeight.bold)),
+                                  trailing: Icon(Icons.arrow_forward_ios,
+                                      color: Color.fromARGB(255, 57, 57, 57)),
                                 ),
-                                Divider(height: 1.0, color: Colors.black),
+                                Divider(
+                                    height: 1.0,
+                                    color: Color.fromARGB(255, 57, 57, 57)),
+                                SizedBox(height: 8.0),
+                                SizedBox(height: 8.0),
                               ],
                             ),
                             Container(
@@ -144,32 +165,43 @@ class _TopPortion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(bottom: 50),
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [gold1, gold, gold]),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(50),
-                bottomRight: Radius.circular(50),
-              )),
+    return Stack(fit: StackFit.expand, children: [
+      Container(
+        margin: const EdgeInsets.only(bottom: 100),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [gold1, gold, gold],
+          ),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(50),
+            bottomRight: Radius.circular(50),
+          ),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            width: 150,
-            height: 150,
-            child: CircleAvatar(
-              child: Icon(Icons.person),
+      ),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+              20.0, 30.0, 20.0, 30.0), // Ajoutez du padding autour du cercle
+          child: Container(
+            width: 130,
+            height: 130,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 57, 57, 57),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Icon(
+                Icons.person,
+                size: 60,
+                color: Colors.white,
+              ),
             ),
           ),
-        )
-      ],
-    );
+        ),
+      )
+    ]);
   }
 }
