@@ -20,7 +20,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
 
   void signUp(BuildContext context) {
@@ -28,13 +27,15 @@ class _SignupScreenState extends State<SignupScreen> {
     if (_passwordController.text == _confirmPasswordController.text) {
       try {
         _auth.signUpWithEmailPassword(
+          _usernameController.text,
           _emailController.text,
           _passwordController.text,
         );
-        Navigator.push(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => ScreenLayout()));
+            builder: (context) => ScreenLayout()),
+            (Route<dynamic>route)=> false,);
       } catch (e) {
         showDialog(
             context: context,
@@ -58,7 +59,6 @@ class _SignupScreenState extends State<SignupScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _passwordController.dispose();
-    _bioController.dispose();
     _usernameController.dispose();
   }
 
