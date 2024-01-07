@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "352876799846",
+    "project_id": "finansync-c5ef0",
+    "storage_bucket": "finansync-c5ef0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352876799846:android:35a9ac3c06c6b81c188aa7",
+        "android_client_info": {
+          "package_name": "com.example.hope"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo49Mot_MvtwscQW4GupTMnSrMHAfGJoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
