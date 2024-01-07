@@ -103,16 +103,15 @@ class _ScreenLayoutState extends State<ScreenLayout> {
         data: NavigationBarThemeData(
           backgroundColor: gold, // Couleur dorée définie dans votre fichier colors.dart
           indicatorColor: Colors.transparent, // Supprime l'indicateur de sélection
-          labelTextStyle: MaterialStateProperty.all(
-            TextStyle(
-              
+           labelTextStyle: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+            final isSelected = states.contains(MaterialState.selected);
+            return TextStyle(
               fontSize: 14,
-              height:0.8,
+              height: 0.8,
               fontWeight: FontWeight.w500,
-              color: index == 0 ? webBackgroundColr : webBackgroundColr.withOpacity(0.5), // Exemple pour le premier item
-              // Répétez pour les autres labels en vérifiant l'index
-            ),
-          ),
+              color: isSelected ? Colors.black : Colors.black.withOpacity(0.5),
+            );
+          }),
         ),
         child: NavigationBar(
           height: 50, // Hauteur ajustée selon votre design

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hope/utils/colors.dart';
@@ -119,29 +121,43 @@ class _CryptoPostState extends State<CryptoPost> {
                       coin.image),
                 ),
                 SizedBox(
-                  width: 5,
+                  width: 15,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      coin.name
+                      coin.name,
+                      style: TextStyle(
+                        fontSize: 18, 
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 5,),
                     Text(coin!.symbol)
                   ],
                 ),
                 Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      coin!.currentPrice.toString()
-                    ),
-                    SizedBox(height: 5,),
-                    Text(coin.priceChangePercentage24H.toString() )
-                  ],
-                )),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        coin.currentPrice.toString()+"\$", // Ajoute un signe de dollar
+                        style: TextStyle(
+                          fontSize: 18, 
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 5,),
+                      Text(
+                        coin.priceChangePercentage24H.toString() + "%", // Ajoute un signe de pourcentage
+                        style: TextStyle(
+                          // Ajoutez ici d'autres styles de texte si nécessaire
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   width: 32,
                 )

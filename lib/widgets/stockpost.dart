@@ -103,18 +103,24 @@ class _StocksPostState extends State<StocksPost> {
                       'assets/FinanSync-logos_transparent.svg'),
                 ),
                 SizedBox(
-                  width: 5,
+                  width: 10,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       stock.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 7,
                     ),
-                    Text(stock.symbol)
+                    Text(stock.symbol,
+                    style: TextStyle(
+                        fontSize: 12, 
+                      ),)
                   ],
                 ),
                 Expanded(
@@ -122,12 +128,18 @@ class _StocksPostState extends State<StocksPost> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      stock.price.toString(),
+                       stock.price.toString()+"\$",
+                       style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold, 
+                      ),
+
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text(stock.changePercent.toString())
+                    Text(stock.changePercent.toString()+ "%")
+                    
                   ],
                 )),
                 SizedBox(
